@@ -3,7 +3,7 @@ import numpy as np
 import requests
 from PIL import Image
 from io import BytesIO
-
+#DISCLAIMER: ChatGPT helped me here. Thank you ChatGPT.
 # Assuming cv2_image is your input image in BGR format
 cv2_image = cv2.cvtColor(np.array(cam.raw_image), cv2.COLOR_RGB2BGR)
 
