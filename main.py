@@ -9,21 +9,22 @@ import simple as mqtt
 import uasyncio as asyncio
 
 def starting():
+    #initialize all values needed. connect to wifi and Adafruit.
     print('Booting Up')
     print('-------------------------------------------------------------------------------------------')
     sleep(1)
     global client, tempF_feedname, tempC_feedname, image_feedname, airtabletoken, baseid, tablename, url, headers
-    USERNAME = b'shivkhanna'
-    AIOKEY = b'aio_Ggux61X9jfePOVT8OVjDDXpIsa59'
-    airtabletoken = 'patRpTzy9QRwXTAl5.72ea248582c08626b98d88141a931c6b18029c6640b569f7e3b0f6d45025ed9b'
-    baseid = 'app742BjiRlmmPEao'
-    tablename = 'Tasks'
+    USERNAME = b'' #omitted
+    AIOKEY = b'' #omitted
+    airtabletoken = '' #omitted
+    baseid = '' #omitted
+    tablename = '' #omitted
     ssid = 'Tufts_Wireless'
     password = ''
     adaurl = b'io.adafruit.com' 
-    tempF_key =  b'thermistor.temperatureF'
-    tempC_key = b'thermistor.temperatureC'
-    image_key = b'image_processing'
+    tempF_key =  b'' #omitted
+    tempC_key = b'' #omitted
+    image_key = b'' #omitted
     mqtt_client_id = b'shiv'
     client = mqtt.MQTTClient(client_id=mqtt_client_id, server=adaurl, user=USERNAME, password=AIOKEY, ssl=False)
     tempF_feedname = bytes('{:s}/feeds/{:s}'.format(USERNAME, tempF_key), 'utf-8')
@@ -54,8 +55,8 @@ def starting():
         print('Could not connect to MQTT server {}{}'.format(type(e).__name__, e))
     print('-------------------------------------------------------------------------------------------')
 #----------------------------------------------------------------------------------------------------------------------------------#
-#publishing and reading
 async def publish():
+    #send data to Adafruit
     publishingperiod = 5
     while True:
         if unit == '1':
@@ -73,6 +74,7 @@ async def publish():
                     qos=0)
         await asyncio.sleep(publishingperiod)
 async def read():
+    #read data from Airtable
     delay =  0.1
     index = 0
     led_in = 5
@@ -104,9 +106,9 @@ async def read():
         except Exception as e:
             print(f"An error occurred: {e}")
         await asyncio.sleep(15)
-#----------------------------------------------------------------------------------------------------------------------------------#   
-#math, physical output, creating coroutines    
+#----------------------------------------------------------------------------------------------------------------------------------#       
 async def physical():
+    #get readings from thermistor and control all LEDS. also create coroutines
     global ts_F, ts_C, leds, border
     gamepad.digital_setup()
     leds = [Pin(0,Pin.OUT), Pin(1,Pin.OUT), Pin(2,Pin.OUT), 
